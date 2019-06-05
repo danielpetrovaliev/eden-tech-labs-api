@@ -55,7 +55,9 @@ class PostController extends Controller
 
         $post = Post::create([
             'title' => $request->input('title'),
-            'content' => $request->input('content')
+            'content' => $request->input('content'),
+            'author_name' => $request->input('author.name'),
+            'author_email' => $request->input('author.email'),
         ]);
 
         return new PostResource($post);

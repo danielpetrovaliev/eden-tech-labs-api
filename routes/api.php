@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::apiResource('posts', 'PostController')->only([
-    'index', 'store', 'show',  'destroy'
-]);
+Route::get('/posts', 'PostController@index')->name('posts.index');
+Route::post('/posts', 'PostController@store')->name('posts.store')->middleware('api.authorization');
+Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
+Route::delete('/posts', 'PostController@destroy')->name('posts.destroy');
+
+Route::post('/authorize', 'AuthorizationController@auth');
+Route::get('/whoAmI', 'AuthorizationController@whoAmI');
+
