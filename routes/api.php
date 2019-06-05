@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 Route::get('/posts', 'PostController@index')->name('posts.index');
 Route::post('/posts', 'PostController@store')->name('posts.store')->middleware('api.authorization');
 Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
-Route::delete('/posts', 'PostController@destroy')->name('posts.destroy');
+Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy');
+Route::post('/posts/{post}/upvote', 'PostController@upVote')->name('posts.upvote');
 
 Route::post('/authorize', 'AuthorizationController@auth');
 Route::get('/whoAmI', 'AuthorizationController@whoAmI');

@@ -12,4 +12,9 @@ class Post extends Model
         "author_name",
         "author_email"
     ];
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
+    }
 }

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
 use App\Post;
+use App\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
-    private $validOrderFields = ['id', 'created_at', 'updated_at'];
+    private $validOrderFields = ['id', 'votes_count', 'created_at', 'updated_at'];
     private $validOrderMethods = ['desc', 'asc'];
     private $defaultPaginationItemsCount = 25;
     private $defaultPostOrderField = 'created_at';
@@ -37,7 +38,7 @@ class PostController extends Controller
         $orderBy = $request->input('orderBy', $this->defaultPostOrderField);
         $orderByMethod = $request->input('orderByMethod', $this->defaultPostOrderMethod);
 
-        return PostResource::collection(Post::orderBy($orderBy, $orderByMethod)->paginate($this->defaultPaginationItemsCount));
+        return PostResource::collection(Post::withCount('votes')->orderBy($orderBy, $orderByMethod)->paginate($this->defaultPaginationItemsCount));
     }
 
     /**
@@ -71,6 +72,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post->loadCount('votes');
+
         return new PostResource($post);
     }
 
@@ -83,8 +86,18 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->votes()->delete();
         $post->delete();
 
         return response()->json(['message' => "Successfully deleted post with id: {$post->id}"], 200);
+    }
+
+    public function upVote(Post $post)
+    {
+        Vote::create(['post_id' => $post->id]);
+
+        $post->refresh()->loadCount('votes');
+
+        return new PostResource($post);
     }
 }
