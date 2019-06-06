@@ -12,7 +12,7 @@ Steps to run the app:
       APP_KEY=base64:LEmtmcqxxmBRxd6+Q/PziGXRRatyHiprz3A95ir6HeU=
       APP_DEBUG=true
       APP_URL=http://localhost
-      DB_CONNECTION=sqlite```
+      DB_CONNECTION=sqlite
 5. run `php artisan migrate`
 6. run `php artisan db:seed`
 7. run `php artisan jwt:secret`
