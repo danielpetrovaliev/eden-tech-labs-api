@@ -22,3 +22,6 @@ There is the postman collection i've created:
 https://www.getpostman.com/collections/b776741f9c238ce577ce
 
 Setup your environment in postman and add variable `base_url` with your local host in envoironment variables or just replace `{{base_url}}` with your local host.
+
+To be able to create Post you should first authorize with name and email.
+Once you run `/authorize` API endpoint you should get Authorization token from response headers and attach it in request headers in create post API endpoint.
